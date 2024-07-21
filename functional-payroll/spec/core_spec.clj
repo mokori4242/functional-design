@@ -4,10 +4,11 @@
             [functional-payroll.payroll-implementation]
             [functional-payroll.payroll-interface :as i]
             [clojure.spec.alpha :as s])
-  (:import (java.text SimpleDateFormat)))
+  (:import (java.text SimpleDateFormat)
+            (java.util Locale)))
 
 (defn parse-date [date-string]
-  (let [sdf (SimpleDateFormat. "MMM dd yyyy")]
+  (let [sdf (SimpleDateFormat. "MMM dd yyyy" Locale/US)]
     (.parse sdf date-string)))
 
 (describe "payroll"
