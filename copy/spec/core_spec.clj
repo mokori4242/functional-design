@@ -6,5 +6,5 @@
           (it "can read and write using str-read and str-write"
               (reset! str-in "abcedf")
               (reset! str-out "")
-              (copy str-read str-write)
+              (copy {:getchar str-read :putchar str-write})
               (should= "abcedf" @str-out)))

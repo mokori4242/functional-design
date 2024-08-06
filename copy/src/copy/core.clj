@@ -1,10 +1,12 @@
 (ns copy.core)
 
-(defn copy [read write]
-  (let [c (read)]
+(defn copy [device]
+  (let [c ((:getchar device))]
     (if (= c :eof)
       nil
-      (recur read (write c)))))
+      (do
+        ((:putchar device) c)
+        (recur device)))))
 
 (def str-in (atom nil))
 (def str-out (atom nil))
