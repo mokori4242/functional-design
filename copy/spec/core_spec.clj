@@ -3,9 +3,7 @@
             [copy.core :refer :all]))
 
 (describe "copy"
-          (it "can read and write using multi-method"
-              (let [device {:device-type :test-device
-                            :input (atom "abcdef")
-                            :output (atom nil)}]
+          (it "can read and write using str-read and str-write"
+              (let [device (->str-device (atom "abcdef") (atom nil))]
                 (copy device)
-                (should= "abcdef" @(:output device)))))
+                (should= "abcdef" @(:out-atom device)))))

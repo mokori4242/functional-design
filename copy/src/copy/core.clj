@@ -1,7 +1,8 @@
 (ns copy.core)
 
-(defmulti getchar (fn [device] (:device-type device)))
-(defmulti putchar (fn [device c] (:device-type device)))
+ (defprotocol device
+   (getchar [_])
+   (putchar [_ c]))
 
 (defn copy [device]
   (let [c (getchar device)]
@@ -11,30 +12,14 @@
         (putchar device c)
         (recur device)))))
 
-(def str-in (atom nil))
-(def str-out (atom nil))
-
-(defn str-read []
-  (let [c (first @str-in)]
-    (if (nil? c)
-      :eof
-      (do
-        (swap! str-in rest)
-        c))))
-
-(defn str-write [c]
-  (swap! str-out str c)
-  str-write)
-
-(defmethod getchar :test-device [device]
- (let [input (:input device)
-       c (first @input)]
-   (if (nil? c)
-     :eof
-     (do
-       (swap! input rest)
-       c))))
-
-(defmethod putchar :test-device [device c]
- (let [output (:output device)]
-   (swap! output str c)))
+  (defrecord str-device [in-atom out-atom]
+   device
+   (getchar [_]
+     (let [c (first @in-atom)]
+       (if (nil? c)
+         :eof
+         (do
+           (swap! in-atom rest)
+           c))))
+   (putchar [_ c]
+     (swap! out-atom str c)))
