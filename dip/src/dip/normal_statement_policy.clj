@@ -18,17 +18,17 @@
 (defmethod determine-amount [::normal :new-release] [_policy rental]
   (* 3.0 (:days rental)))
 
-(defmethod determine-points [::normal :regular] [_policy rental]
+(defmethod determine-points [::normal :regular] [_policy _rental]
   1)
 
 (defmethod determine-points [::normal :new-release] [_policy rental]
   (if (> (:days rental) 1) 2 1))
 
-(defmethod determine-points [::normal :childrens] [_policy rental]
+(defmethod determine-points [::normal :childrens] [_policy _rental]
   1)
 
 (defmethod total-amount ::normal [policy rentals]
-  reduce + (map #(determine-amount policy %) rentals))
+  (reduce + (map #(determine-amount policy %) rentals)))
 
 (defmethod total-points ::normal [policy rentals]
-  reduce + (map #(determine-points policy %) rentals))
+  (reduce + (map #(determine-points policy %) rentals)))

@@ -1,4 +1,4 @@
-(ns dip.text-statement-formatter
+(ns dip.text-statement_formatter
   (:require [dip.statement-formatter :refer :all]))
 
 (defn make-text-formatter [] {:type ::text})
